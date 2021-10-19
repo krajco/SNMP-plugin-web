@@ -218,3 +218,41 @@ function findSensor() {
         }
     });
 }
+
+// .input-group.mb-3
+// label.input-group-text(for='inputGroupSelect01') Options
+// select#inputGroupSelect01.form-select
+// option(value='0') Disabled
+// option(value='1') Enabled
+// div.row
+function showAttributes() {
+    let input = document.getElementById('monitoring_select');
+    let ul  = document.getElementById('monitoring_list');
+    let lis = ul.childNodes;
+
+    lis.forEach(li => {
+        ul.removeChild(li);
+    })
+
+    let data = JSON.parse(input.value);
+
+    let index = 1;
+    data.attributes.forEach(item => {
+        let div = createHTMLElement('div', ['input-group', 'mb-3'],[])
+        let label = createHTMLElement('label', ['input-group-text'], [])
+        label.innerHTML = item.attr_name;
+
+        let select = createHTMLElement('select', ['form-select'], [['name', item.attr_name]]);
+        let opt1 = createHTMLElement('option', [],[['value', 0]]);
+        opt1.innerHTML = 'Disabled';
+        let opt2 = createHTMLElement('option', [],[['value', 1]]);
+        opt2.innerHTML = 'Enabled';
+        select.appendChild(opt1)
+        select.appendChild(opt2)
+
+        div.appendChild(label)
+        div.appendChild(select)
+        ul.appendChild(div);
+        index++;
+    });
+}

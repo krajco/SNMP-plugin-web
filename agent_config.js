@@ -14,6 +14,57 @@ class SNMPConfiguration {
             console.log(err);
         }
     }
+    getNagiosConfiguration(){
+        let configuration = this.#getTablesConfiguration();
+
+
+
+    }
+
+    #getTablesConfiguration(){
+        let tableOid = '1.3.6.1.3.999.1.';
+        let tableIndex = 1; // Mib table
+        let tablesConfiguration = [];
+
+        this.#data.tables.forEach(table => {
+            let tableConfiguration = {
+                name: table.object_name,
+                oids: []
+            };
+            let sensorIndex = 1; // Row in table
+
+            table.sensors.forEach(sensor => {
+                let attributeIndex = 1; // Monitoring attribute
+                table.attributes.forEach(attr => {
+                    if(attr.monitoring)
+                        tableConfiguration.oids.push({
+                            sensor: attr.attr_name + '_' + sensor,
+                            oids: tableOid +tableIndex + '.' + attributeIndex + '.' + sensorIndex
+                        })
+                        let cmd_name = 'check_' + attr.attr_name + '_' + sensor;
+                        let command = `define command{\n\tcommand_name\t\t${cmd_name}\n\tcommand_line $USER1$/check_oid.py -H $HOSTADDRESS$ `
+                    attributeIndex++;
+                })
+                sensorIndex++;
+            })
+            console.log(tableConfiguration);
+            tablesConfiguration.push(tableConfiguration);
+            tableIndex++;
+        });
+        return tablesConfiguration;
+    }
+
+    saveMonitoringState(data) {
+        let mib_object = JSON.parse(data.mib_object);
+        let object_name = mib_object.object_name;
+        this.#data.tables.forEach(table => {
+            if(table.object_name === object_name){
+                table.attributes.forEach(attr => {
+                    attr.monitoring = data[attr.attr_name];
+                });
+            }
+        })
+    }
 
     getMibObjects(){
         let tables = this.#objectList('tables');
@@ -67,7 +118,6 @@ class SNMPConfiguration {
             if(tables[i]['object_name'] === object_name)
                 return 'tables';
         }
-
         return 'scalars';
     }
 
@@ -76,14 +126,13 @@ class SNMPConfiguration {
         let list = this.#data[type];
         let data = [];
 
-        for (let i = 0; list[i]; i++) {
-            let item = {
-                object_name: list[i]['object_name'],
-                sensors: list[i]['sensors']
-            }
-
-            data.push(item);
-        }
+        list.forEach(item => {
+            data.push({
+                object_name: item.object_name,
+                attributes: item.attributes,
+                sensors: item.sensors
+            });
+        })
         return data;
     }
 
@@ -128,7 +177,7 @@ class SNMPConfiguration {
             if(!input.hasOwnProperty(mib_attr))
                 break;
 
-            output['attributes'].push({attr_name: input[mib_attr], atrr_type: input[mib_attr_type]});
+            output['attributes'].push({attr_name: input[mib_attr], attr_type: input[mib_attr_type], monitoring: 0});
         }
 
         return output;

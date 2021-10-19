@@ -11,11 +11,12 @@
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.27.5",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.14"
   },
   "dependencies": {
     "bent": "^7.3.12",
     "express": "^4.17.1",
+    "fs": "0.0.1-security",
     "pug": "^3.0.2"
   }
 }

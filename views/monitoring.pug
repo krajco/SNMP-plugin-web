@@ -1,5 +1,21 @@
 extends layout
 
 block layout-content
-    textarea.form-control.main-container.container-shadow
-        | #{config}
+    .main-container.container-shadow
+        form(action='monitoring', method="POST")
+            div.row
+                .col
+                    select(id="monitoring_select" class="form-control" onchange="showAttributes()" name='mib_object')
+                        option(value="" disabled selected hidden) Select sensors ..
+                        each mibObject in mibObjects
+                            option(value=mibObject) #{mibObject.object_name}
+            br
+            div.row
+                ul.list-group#monitoring_list
+                    //.input-group.mb-3
+                    //    label.input-group-text(for='inputGroupSelect01') Options
+                    //    select#inputGroupSelect01.form-select
+                    //        option(value='0') Disabled
+                    //        option(value='1') Enabled
+            div.row
+                button.btn.btn-success.btn-form(type="submit") Save!

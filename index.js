@@ -100,7 +100,7 @@ app.post('/config_mib_object', urlencodedParser, (req, res) => {
 });
 
 app.get('/nagios_config', urlencodedParser, (req, res) => {
-    let config = 'Hello World';
+    let config = agent_updater.getNagiosConfiguration();
     res.render('nagios_config', {config: config});
 });
 
@@ -110,8 +110,15 @@ app.get('/mib_config', urlencodedParser, (req, res) => {
 });
 
 app.get('/monitoring', urlencodedParser, (req, res) => {
-    let config = 'monitoring';
-    res.render('monitoring', {config: config});
+    let mibObjects = agent_updater.getMibObjects();
+
+    res.render('monitoring', {mibObjects: mibObjects});
+});
+
+app.post('/monitoring', urlencodedParser, (req, res) => {
+    agent_updater.saveMonitoringState(req.body)
+    agent_updater.saveConfiguration();
+    res.json({body: req.body});
 });
 
 /**
