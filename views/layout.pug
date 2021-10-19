@@ -1,0 +1,31 @@
+block variables
+doctype html
+html
+    head
+        meta(http-equiv='content-type' content='text/html; charset=utf-8')
+        meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+        meta(name="theme-color", content="#000000")
+        //- Bootstrap
+        link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous")
+        script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous")
+        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous")
+
+        link(rel="stylesheet" href="style.css")
+        script(src="sensors.js")
+    body
+        nav.navbar.navbar-expand-lg.navbar-light.bg-light
+            #navbarNav.collapse.navbar-collapse
+                ul.navbar-nav
+                    li.nav-item
+                        a.nav-link(href='new_mib_object') Create MIB objects
+                    li.nav-item
+                        a.nav-link(href='config_mib_object') Config MIB objects
+                    li.nav-item
+                        a.nav-link(href='nagios_config') Nagios configuration
+                    li.nav-item
+                        a.nav-link(href='mib_config') MIB configuration
+                    li.nav-item
+                        a.nav-link(href='monitoring') Monitoring
+
+        block layout-content

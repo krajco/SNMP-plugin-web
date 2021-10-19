@@ -1,0 +1,86 @@
+.main-container {
+    width: 90%;
+    height: 80vh;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 2%;
+    overflow-x: scroll;
+    padding: 2% 2% 2% 2%;
+}
+
+.container-shadow {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.container-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.container-sub {
+    width: 45%;
+    min-height: 40vh;
+    margin: 2.5% 2.5% 2.5% 2.5%;
+    float: left;
+    border-style: inset;
+    border-width: 1px;
+    overflow-y: scroll;
+}
+
+.container-form {
+    margin-top: 30px;
+    padding-top: 20px;
+}
+
+.container-form input {
+    max-width: 300px;
+    margin-bottom: 15px;
+    margin-left: 30px;
+}
+
+.container-form select {
+    width: 75%;
+    margin-bottom: 15px;
+    margin-left: 15%;
+}
+
+.btn-form {
+    margin-left: 15px;
+    width: 150px;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.list-group-item:last-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.list-group-item {
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    border-top: 1px solid rgba(0,0,0,.125);
+}
+
+.list-group {
+    max-height: 300px;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.list-group-item:hover {
+    color: #9FA3E6;
+}
+
+.shadow-textarea textarea.form-control::placeholder {
+    font-weight: 300;
+}
+.shadow-textarea textarea.form-control {
+    padding-left: 0.8rem;
+}

@@ -1,0 +1,33 @@
+extends layout
+
+block layout-content
+    .main-container.container-shadow
+        .container-header
+            h3.display-4 Mib configuration
+        form(action='config_mib_object', method="POST")
+            .row
+                .col
+                    .card
+                        .card-header
+                            input.form-control#myInput(type="text" placeholder="Search.." onkeyup='findSensor()')
+                    .card-body.no-padding
+                        ul.list-group#unUsedList
+                            - var sensorCounter = 1
+                            - var checkBoxName = 'sensor_'
+                            each sensor in sensors
+                                - var actualId = checkBoxName + sensorCounter++
+                                input.list-group-item(id=actualId onclick="swaper.makeSwap(this.id)" value=sensor.entity_id)
+                .col
+                    .card
+                        .card-header
+                            select(id="mib_objects" class="form-control" onchange="swaper.reload()" name="mib_object")
+                                option(value="" disabled selected hidden) Select sensors ..
+                                each mibObject in mibObjects
+                                    option(value=mibObject) #{mibObject.object_name}
+                        .card-body
+                            ul.list-group#usedList
+            div.form-group.row
+                button.btn.btn-success.btn-form(type="submit") Finish!
+            div.form-group.row
+                if result
+                    div.alert.alert-success.btn-form(role="alert") Successfull

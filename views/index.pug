@@ -1,0 +1,39 @@
+extends layout
+
+block layout-content
+    nav
+        #nav-tab.nav.nav-tabs(role='tablist')
+            a#nav-home-tab.nav-item.nav-link(data-toggle='tab' href='#nav-home' role='tab' aria-controls='nav-home' aria-selected='true') Home
+            a#nav-profile-tab.nav-item.nav-link.active(data-toggle='tab' href='#nav-profile' role='tab' aria-controls='nav-mib-object' aria-selected='false') MIB Objects
+            a#nav-contact-tab.nav-item.nav-link(data-toggle='tab' href='#nav-contact' role='tab' aria-controls='nav-monitoring' aria-selected='false') Monitoring
+        #nav-tabContent.tab-content
+            #nav-home.tab-pane.fade(role='tabpanel' aria-labelledby='nav-home-tab')
+                button.btn.btn-success 1
+            #nav-profile.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-mib-objects-tab')
+                div.main-container.container-shadow
+                    div.container-header
+                        h3.display-4 Create new MIB object
+                    form(action='create_mib_object', method="POST")
+                        div#form_mib_objects
+                            div.form-group.row
+                                div.col
+                                    input(type="text" value="" name="object_name" placeholder="MIB object name" class="form-control")
+                                div.col
+                                    select.form-control(name='object_type')
+                                        option(value="" disabled selected hidden) Select type ..
+                                        option(value="scalar") Scalar
+                                        option(value="table") Table
+                                div.col
+                                    select(id="types" class="form-control" onchange="reloadSensors()")
+                                        option(value="" disabled selected hidden) Select sensors ..
+                                        each sensor in sensors
+                                            option(value=sensor) #{sensor.entity_id}
+                        div.form-group.row.form-right
+                            div(class="btn btn-info btn-form" onclick="newElementMibObject('', '')") Add Element
+                        div.form-group.row
+                            button.btn.btn-success.btn-form(type="submit") Finish!
+                        div.form-group.row
+                            if result
+                                div.alert.alert-success.btn-form(role="alert") Successfull
+            #nav-contact.tab-pane.fade(role='tabpanel' aria-labelledby='nav-monitoring-tab')
+                button.btn.btn-success 3
