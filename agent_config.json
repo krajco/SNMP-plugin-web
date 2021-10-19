@@ -1,0 +1,68 @@
+{
+  "tables": [
+    {
+      "object_type": "table",
+      "object_name": "SHP6Power",
+      "attributes": [
+        {
+          "attr_name": "entity_id",
+          "atrr_type": "string"
+        },
+        {
+          "attr_name": "state",
+          "atrr_type": "string"
+        },
+        {
+          "attr_name": "attributes_unit_of_measurement",
+          "atrr_type": "string"
+        },
+        {
+          "attr_name": "attributes_friendly_name",
+          "atrr_type": "string"
+        },
+        {
+          "attr_name": "attributes_device_class",
+          "atrr_type": "string"
+        },
+        {
+          "attr_name": "last_changed",
+          "atrr_type": "string"
+        },
+        {
+          "attr_name": "last_updated",
+          "atrr_type": "string"
+        },
+        {
+          "attr_name": "context_id",
+          "atrr_type": "string"
+        },
+        {
+          "attr_name": "context_parent_id",
+          "atrr_type": "string"
+        },
+        {
+          "attr_name": "context_user_id",
+          "atrr_type": "string"
+        }
+      ],
+      "sensors": [
+        "sensor.shp6_konvica_energy_power",
+        "sensor.shp6_nes_ap1_energy_power",
+        "sensor.shp6_ladnicka_energy_power",
+        "sensor.shp6_nes_ap2_energy_power",
+        "sensor.shp6_pc_letavay_energy_power",
+        "sensor.felixtec4_energy_power",
+        "sensor.pc_pluskal_energy_power",
+        "sensor.tasmota_energy_power",
+        "sensor.shp6_pc_koutensky_energy_power",
+        "sensor.shp6_pc_vecera_energy_power",
+        "sensor.shp6_pc_mucka_energy_power",
+        "sensor.shp6_pc_lichtner_energy_power",
+        "sensor.shp6_pc_sperka_energy_power",
+        "sensor.shp6_kavovar_saeco_energy_power"
+      ]
+    }
+  ],
+  "scalars": [],
+  "sensors": []
+}
