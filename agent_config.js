@@ -6,6 +6,7 @@ class SNMPConfiguration {
     #object_name;
     #data;
     #configFile = 'agent_config.json';
+    #tablesConfiguration = [];
 
     constructor() {
         try{
@@ -14,17 +15,67 @@ class SNMPConfiguration {
             console.log(err);
         }
     }
-    getNagiosConfiguration(){
-        let configuration = this.#getTablesConfiguration();
+
+    #getOid(name) {
+        this.#tablesConfiguration.forEach(table => {
+            table.oids.forEach(item => {
+                if(item.sensor === name){
+                    return item.oid;
+                }
+            });
+        })
+    }
 
 
+    #getNagiosConfiguration(data){
+        let keys = Object.keys(data);
+        let values = [];
+        let result = [];
+
+        keys.forEach(item => {
+            values.push(data[item]);
+
+            if(values.length === 6){
+                result.push({
+                    name: item.substring(0, item.lastIndexOf('_')),
+                    wlt: values[0],
+                    wgt: values[1],
+                    weq: values[2],
+                    clt: values[3],
+                    cgt: values[4],
+                    ceq: values[5]
+                })
+                values = [];
+
+            }
+            console.log(item);
+        });
+        return result;
+    }
+
+    #createService(obj) {
+        return `define service {\n\tcheck_interval\t\t1\n\tuse\t\tlocal-service\n\thost_name\t\thassio\n\tservice_description\t${obj.name}\n\tcheck_command\t\tcheck_oid -o ${this.#getOid(obj.name)} -v 3 -l authPriv -u fred -a SHA -A "password1" -x des -X "password1"\n}\n\n`
 
     }
 
-    #getTablesConfiguration(){
+    getNagiosServices(data){
+        let config = this.#getNagiosConfiguration(data);
+        let result = '';
+        config.forEach(item => {
+            result += this.#createService(item);
+        })
+
+        return result;
+    }
+
+    getTablesConfiguration(){
+        return this.#tablesConfiguration;
+    }
+
+    calcNagiosConfiguration(){
+        this.#tablesConfiguration = [];
         let tableOid = '1.3.6.1.3.999.1.';
         let tableIndex = 1; // Mib table
-        let tablesConfiguration = [];
 
         this.#data.tables.forEach(table => {
             let tableConfiguration = {
@@ -36,22 +87,19 @@ class SNMPConfiguration {
             table.sensors.forEach(sensor => {
                 let attributeIndex = 1; // Monitoring attribute
                 table.attributes.forEach(attr => {
-                    if(attr.monitoring)
+                    if(attr.monitoring === '1'){
                         tableConfiguration.oids.push({
-                            sensor: attr.attr_name + '_' + sensor,
-                            oids: tableOid +tableIndex + '.' + attributeIndex + '.' + sensorIndex
+                            sensor: sensor + '_' + attr.attr_name,
+                            oid: tableOid +tableIndex + '.' + attributeIndex + '.' + sensorIndex
                         })
-                        let cmd_name = 'check_' + attr.attr_name + '_' + sensor;
-                        let command = `define command{\n\tcommand_name\t\t${cmd_name}\n\tcommand_line $USER1$/check_oid.py -H $HOSTADDRESS$ `
+                    }
                     attributeIndex++;
                 })
                 sensorIndex++;
             })
-            console.log(tableConfiguration);
-            tablesConfiguration.push(tableConfiguration);
+            this.#tablesConfiguration.push(tableConfiguration);
             tableIndex++;
         });
-        return tablesConfiguration;
     }
 
     saveMonitoringState(data) {
@@ -62,7 +110,7 @@ class SNMPConfiguration {
                 table.attributes.forEach(attr => {
                     attr.monitoring = data[attr.attr_name];
                 });
-            }
+            };
         })
     }
 

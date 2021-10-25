@@ -1,5 +1,45 @@
 extends layout
 
 block layout-content
-    textarea.form-control.main-container.container-shadow
-        | #{config}
+    .main-container.container-shadow
+        form(action='nagios_config', method="POST")
+            div.row
+                .col
+                    select(id="nagios_select" class="form-control" onchange="showMonitoring()")
+                        option(value="" disabled selected hidden) Select table ..
+                        each config in configs
+                            option(value=config.oids) #{config.name}
+            br
+            div.row
+                ul.list-group#nagios_list
+                    //- .div.ulspace
+                    //-     .input-group
+                    //-         .input-group-prepend
+                    //-             span.input-group-text(id='') First and last name
+                    //-         input.form-control(type='text' placeholder='Warning - lower then')
+                    //-         input.form-control(type='text' placeholder='Warning - greater then')
+                    //-         input.form-control(type='text' placeholder='Warning - equal')
+                            
+                    //-     .input-group
+                    //-         .input-group-prepend
+                    //-             span.input-group-text(id='') First and last name
+                    //-         input.form-control(type='text' placeholder='Critical - lower then')
+                    //-         input.form-control(type='text' placeholder='Critical - greater then')
+                    //-         input.form-control(type='text' placeholder='Critical - equal')
+                    //- .div.ulspace
+                        //- .input-group
+                        //-     .input-group-prepend
+                        //-         span.input-group-text(id='') First and last name
+                        //-     input.form-control(type='text' placeholder='Warning - lower then')
+                        //-     input.form-control(type='text' placeholder='Warning - greater then')
+                        //-     input.form-control(type='text' placeholder='Warning - equal')
+                            
+                        //- .input-group
+                        //-     .input-group-prepend
+                        //-         span.input-group-text(id='') First and last name
+                        //-     input.form-control(type='text' placeholder='Critical - lower then')
+                        //-     input.form-control(type='text' placeholder='Critical - greater then')
+                        //-     input.form-control(type='text' placeholder='Critical - equal')
+
+            div.row
+                button.btn.btn-success.btn-form(type="submit") Generate!

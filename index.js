@@ -100,8 +100,14 @@ app.post('/config_mib_object', urlencodedParser, (req, res) => {
 });
 
 app.get('/nagios_config', urlencodedParser, (req, res) => {
-    let config = agent_updater.getNagiosConfiguration();
-    res.render('nagios_config', {config: config});
+    agent_updater.calcNagiosConfiguration()
+    let config = agent_updater.getTablesConfiguration();
+    res.render('nagios_config', {configs: config});
+});
+
+app.post('/nagios_config', urlencodedParser, (req, res) => {
+    let nagios_config = agent_updater.getNagiosServices(req.body);
+    res.render('nagios_serv', {config: nagios_config});
 });
 
 app.get('/mib_config', urlencodedParser, (req, res) => {

@@ -84,3 +84,7 @@
 .shadow-textarea textarea.form-control {
     padding-left: 0.8rem;
 }
+
+.ulspace {
+    margin-bottom: 15px;
+}

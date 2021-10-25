@@ -116,7 +116,7 @@ function jsonConversion(json, context = '') {
     return list;
 }
 
-function createHTMLElement(type, classes, attributes) {
+function createHTMLElement(type, classes, attributes = []) {
     let element = document.createElement(type);
     for(let i = 0; i < classes.length; i++) {
         element.classList.add(classes[i]);
@@ -255,4 +255,57 @@ function showAttributes() {
         ul.appendChild(div);
         index++;
     });
+}
+
+function showMonitoring(){
+    let input = document.getElementById('nagios_select');
+    let ul  = document.getElementById('nagios_list');
+    let lis = ul.childNodes;
+
+    lis.forEach(li => {
+        ul.removeChild(li);
+    })
+
+    let data = JSON.parse(input.value);
+
+    data.forEach(item => {
+        let ulspace = createHTMLElement('div',['ulspace'],[]);
+        let group = createHTMLElement('div',['input-group'],[]);
+        let groupPrepend = createHTMLElement('div',['input-group-prepend'],[]);
+
+        let group2 = createHTMLElement('div',['input-group'],[]);
+        let groupPrepend2 = createHTMLElement('div',['input-group-prepend'],[]);
+
+        let span = createHTMLElement('span',['input-group-text'])
+        span.innerHTML = item.sensor
+        let span2 = createHTMLElement('span',['input-group-text'])
+        span2.innerHTML = item.oid
+
+        let prefix = item.sensor + '_';
+        let input1 = createHTMLElement('input',['form-control'],[['placeholder','Warning - lower then'], ['name', prefix + 'wlt']])
+        let input2 = createHTMLElement('input',['form-control'],[['placeholder','Warning - greater then'], ['name', prefix + 'wgt']])
+        let input3 = createHTMLElement('input',['form-control'],[['placeholder','Warning - equal'], ['name', prefix + 'weq']])
+        let input4 = createHTMLElement('input',['form-control'],[['placeholder','Critical - lower then'], ['name', prefix + 'clt']])
+        let input5 = createHTMLElement('input',['form-control'],[['placeholder','Critical - greater then'], ['name', prefix + 'cgt']])
+        let input6 = createHTMLElement('input',['form-control'],[['placeholder','Critical - equal'], ['name', prefix + 'ceq']])
+
+        groupPrepend.appendChild(span);
+        group.appendChild(groupPrepend);
+        group.appendChild(input1);
+        group.appendChild(input2);
+        group.appendChild(input3);
+
+        groupPrepend2.appendChild(span2);
+        group2.appendChild(groupPrepend2);
+        group2.appendChild(input4);
+        group2.appendChild(input5);
+        group2.appendChild(input6);
+
+        ulspace.appendChild(group);
+        ulspace.appendChild(group2);
+
+        ul.appendChild(ulspace);
+
+    })
+
 }
