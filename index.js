@@ -32,10 +32,8 @@ app.use(express.urlencoded({extended: true}))
  * Routes Definitions
  */
 
-let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIyZjBjMjNlMzFiNDA0NDJiYTg1ZWE5YTZhNzk2OTNjYiIsImlhdCI6MTYzMjU5Mjc2OCwiZXhwIjoxOTQ3OTUyNzY4fQ.Iwln2UBqWAerPczPSLCCp0P5T5s_EcHsqgGFN28ER2Y';
-
 app.get('/', urlencodedParser, (req, res) => {
-    let data = bent({'Authorization': 'Bearer '+ token}, 'json')(`https://ha.nesad.fit.vutbr.cz/api/states`);
+    let data = bent({'Authorization': 'Bearer '+ token}, 'json')(`https://localhost/api/states`);
 
     // const data = bent({'Authorization': `Bearer: ${process.env.SUPERVISOR_TOKEN}`}, 'json')(`http://supervisor/core/api/states`);
 
